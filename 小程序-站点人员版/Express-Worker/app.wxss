@@ -1,0 +1,38 @@
+.cols-3-row{
+display:flex;
+background-color: white;
+}
+.cols-3-row .left{
+ flex:2;
+ line-height:40px;
+}
+.cols-3-row .middle{
+   flex:3;
+   line-height:40px;
+}
+.cols-3-row .right{
+   flex:2;
+   line-height:40px;
+}
+.cols-2-row{
+display:flex;
+}
+.cols-2-row .left{
+  flex:2;
+  line-height:40px;
+}
+.cols-2-row .right{
+   flex:5;
+   line-height:40px;
+}
+input{
+  height:40px;
+}
+.line{
+  height:1px;border-bottom:1px solid #f8f8f8;
+}
+
+.br{
+  height:10px; background-color:  #f8f8f8;
+}
+

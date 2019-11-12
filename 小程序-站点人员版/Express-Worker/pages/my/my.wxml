@@ -1,0 +1,20 @@
+  <button wx:if="{{userinfo}}" bindtap="logout"   type="primary" >注销</button>
+<form bindsubmit="login"   wx:else  >
+  <view style="padding:15px;">
+    <view class="cols-2-row">
+      <label class="left"  style="text-align:right;padding-right:10px;" >工号</label>
+      <input name="id" class="right" placeholder="请输入用户名" />
+    </view>
+    <view class="br"></view>
+    <view class="cols-2-row">
+      <label class="left"   style="text-align:right;padding-right:10px;">密码</label>
+      <input name="password" type="password"  class="right" placeholder="请输入密码" />
+    </view>
+    <view class="br"></view>
+      <view class="cols-2-row">
+        <button form-type="submit" type="primary"  style="flex:1">登陆</button>
+        
+    </view>
+  </view>
+</form>
+

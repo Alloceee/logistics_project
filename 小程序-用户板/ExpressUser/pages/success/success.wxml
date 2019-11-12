@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view class="top">
+  <view class="left">
+    <button type="primary"  class="gray" disabled="disabled"   >Step1</button>
+  </view>
+  <view class="center">
+    <button type="primary"  class="gray" disabled="disabled" >Step2</button>
+  </view>
+  <view class="right">
+    <button type="primary" class="active"   disabled="disabled"  >Step3</button>
+  </view>
+</view>
+<view class="container">
+ 
+  <view class="usermotto">
+    <text class="user-motto">提交成功！{{count}}S后回到首页</text>
+     <button type="primary" bindtap="backHome">返回</button>
+  </view>
+ 
+</view>

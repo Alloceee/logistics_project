@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.mapper.DeliverrecordMapper">
+   
+   <insert id="insert" parameterType="Deliverrecord" useGeneratedKeys="true" keyColumn="id" keyProperty="id" >
+   	insert into deliverrecord
+   	(id,route_id,goodz_total,truck_id,driver_id,creationtime,status,sendtime)
+   	values
+   	(null,#{route_id},#{goodz_total},#{truck_id},#{driver_id},now(),1,#{sendtime})
+   </insert>
+   
+   <!-- 
+   	private Deliverrecord record;
+	private Route route;
+	private Driver driver;
+	private Truck truck;
+    -->
+   
+   <sql id="dynamicsql">
+       <if test="id != null">
+         	and id=#{id}
+      </if>
+       <if test="route_id != null">
+      	   and route_id=#{route_id}
+      </if>
+       <if test="sendtime != null">
+      	  and sendtime=#{sendtime}
+      </if>
+       <if test="status != null">
+      	and status=#{status}
+      </if>
+        <if test="driver_id != null">
+      	and driver_id=#{driver_id}
+      </if>
+        <if test="truck_id != null">
+      	and truck_id=#{truck_id}
+      </if>
+      
+   </sql>
+   
+    <!-- 
+   	private Deliverrecord record;
+	private Route route;
+	private Driver driver;
+	private Truck truck;
+    -->
+    
+    
+   <select id="getBase" parameterType="Deliverrecord" resultType="Deliverrecord">
+      select * from deliverrecord where 1
+      <include refid="dynamicsql"></include>
+   </select>
+   
+   
+    
+   
+   <select id="getDetail" parameterType="Deliverrecord" resultType="DeliverrecordVO"  >
+	select 
+	     t3.*,
+	     truck.name as truck_name,
+	     truck.num as  truck_num
+	   from 
+		   (select 
+		    t2.*,
+		    route.name as route_name
+		    from 
+		      (select 
+			       t.*, 
+			       driver.name as driver_name 
+			       from 
+				       ( select * from deliverrecord  where 1
+				         <include refid="dynamicsql"></include> )  t
+				  left outer join driver on t.driver_id = driver.id)  t2
+				  left outer join route on route.id=t2.route_id) t3
+				  left outer join truck on t3.truck_id=truck.id 
+			  
+		  
+   </select>
+   
+   <update id="updateStatus" parameterType="Deliverrecord">
+   	     update deliverrecord set status=#{status},lastupdate=now()
+   	     where id=#{id}
+   </update>
+   
+    <update id="updateGoodzTotal" parameterType="int">
+   	     update deliverrecord set goodz_total=goodz_total +1,lastupdate=now()
+   	    where id=#{id} and status = 1
+   </update>
+ 
+   
+   <update id="update" parameterType="Deliverrecord">
+   	  update deliverrecord set lastupdate=now()
+   	     <if test="route_id != null">
+   	     	 ,status=#{status}
+   	     </if>
+   	      <if test="goodz_total != null">
+   	     	 ,goodz_total=#{goodz_total}
+   	     </if>
+   	      <if test="truck_id!= null">
+   	     	 ,truck_id=#{truck_id}
+   	     </if>
+   	      <if test="driver_id!= null">
+   	     	 ,driver_id=#{driver_id}
+   	     </if>
+   	     <if test="sendtime!= null">
+   	     	 ,sendtime=#{sendtime}
+   	     </if>
+   	  where id=#{id} and status = 1
+   </update>
+   
+  
+   <insert id="insertDetail" parameterType="Deliverrecorddetail" >
+   	  insert into deliverrecorddetail(deliver_id,order_id)values(#{deliver_id},#{order_id})
+   </insert>
+   
+   
+   <delete id="removeDetail" parameterType="Deliverrecorddetail">
+      delete from deliverrecorddetail where deliver_id=#{deliver_id} and order_id=#{order_id}
+   </delete>
+   
+   
+    <!--  主表：deliverrecorddetail 
+                   从表： ex_order 左关联查询 但是选择的是从表字段。
+                   关联字段： order_id = id
+                     -->
+    <select id="getOrderListById" parameterType="int" resultType="Order">
+    	select 
+    		od.* 
+    		from  deliverrecorddetail   dr
+    			left outer join  ex_order od
+    			on dr.order_id = od.id
+    		where dr.deliver_id=#{id}
+    </select>
+    
+    
+    <update id="updateOrderStatusById" >
+        update ex_order set status=#{status} 
+           where id in (
+        			select order_id 
+        				from deliverrecorddetail 
+        				where deliver_id =#{deliver_id}
+        			)
+    </update>
+</mapper>

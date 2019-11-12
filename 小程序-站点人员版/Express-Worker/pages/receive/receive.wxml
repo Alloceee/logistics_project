@@ -1,0 +1,48 @@
+<view>
+    <view  class="line"></view>
+    <view style="height:40px;" class="cols-3-row">
+         <label class="left" style="padding-left:20px;" >发货单</label>
+         <input class="middle" disabled='disabled'  style="flex:3;height:40px;" value="{{deliverinfo.id}}" placeholder="请扫描发货单" />
+         <button  class="right" bindtap="getDeliverId">扫描</button>
+    </view>  
+     <view class="line"></view> 
+    <block wx:if="{{deliverinfo}}">
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >路线</label>
+            <label class="right"  >{{deliverinfo.route_name}}</label>
+        </view>  
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >司机</label>
+            <label class="right"  >{{deliverinfo.driver_name}}</label>
+        </view>   
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >车辆</label>
+            <label class="right"  >{{deliverinfo.truck_name}}</label>
+        </view>   
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >车牌号</label>
+            <label class="right"  >{{deliverinfo.truck_num}}</label>
+        </view> 
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >货物总数</label>
+            <label class="right"  >{{deliverinfo.goodz_total}}</label>
+        </view> 
+         <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >发货时间</label>
+            <label class="right"  >{{deliverinfo.sendtime}}</label>
+        </view> 
+        <view class="cols-2-row" >
+             <label class="left" style="padding-left:20px;" >签收记录</label>
+             <view class="right">
+                 <view wx:for="{{recrecordlist}}" style="font-size:12px;">
+            <label >{{item.creationtime}} {{item.site_name}} {{item.worker_name}}</label> 
+                 </view>
+             </view>
+        </view>
+        <view style="height:40px;" class="cols-2-row">
+             <button type="primary" bindtap="receive">一键收货</button>
+        </view> 
+    </block>
+   
+    <view style="height:30px;"></view>
+</view>

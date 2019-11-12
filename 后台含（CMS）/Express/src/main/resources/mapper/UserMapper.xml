@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.mapper.UserMapper">
+
+   <select id="getByOpenId" parameterType="string" resultType="user">
+     select * from user where openid=#{openid}
+   </select>
+   
+   <insert id="insert" parameterType="user" >
+      insert  into user
+      (openid,creationtime)
+      		values
+      (#{openid},now())
+   </insert>
+   
+   <update id="updateInfo" parameterType="user" >
+   	  update user set    
+   	  <if test="nickname !=null and nickname!='' ">
+   	  	  nickname=#{nickname},
+   	  </if>
+   	   <if test="avatarurl !=null and avatarurl !='' ">
+   	  	  avatarurl=#{avatarurl},
+   	  </if>
+   	   <if test="gender !=null and gender !='' ">
+   	  	  gender=#{gender},
+   	  </if>
+   	   <if test="tel !=null and tel !='' ">
+   	  	  tel=#{tel},
+   	  </if>
+      lastupdate=now()
+   	   where openid=#{openid}
+   </update>
+</mapper>

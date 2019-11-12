@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.mapper.RecRecordMapper" >
+
+<!-- 
+ /**
+	  * 添加收货记录
+	  */
+	 int insert( RecRecord record );
+	 /**
+	  *  根据发货单，查询收货记录。RecRecordVO
+	  * @param deliver_id
+	  * @return
+	  */
+	 List<RecRecordVO> getDetail(int deliver_id);
+ -->
+ <insert id="insert" parameterType="RecRecord"  >
+ 	insert into deliver_rec_record
+ 	(deliver_id,site_id,worker_id,creationtime)
+ 	values
+     (#{deliver_id},#{site_id},#{worker_id},now())
+ </insert>
+ 
+ <select id="getDetail" parameterType="int" resultType="RecRecordVO">
+     <!--   主表：deliver_rec_record 
+     		从表： site 取出 name as site_name
+     		      worker 取出name as worker_name  -->
+     	select t.*,
+     		worker.name as worker_name
+     		from 	
+		     (select 
+		         rc.*,
+		         site.name as site_name
+		         from 
+		         deliver_rec_record rc
+		         	left outer join site
+		      		on rc.site_id = site.id
+		      		where rc.deliver_id=#{deliver_id}
+		      			order by creationtime desc)  t
+		      		left outer join worker
+		      		on t.worker_id = worker.id
+	              
+ </select>
+</mapper>

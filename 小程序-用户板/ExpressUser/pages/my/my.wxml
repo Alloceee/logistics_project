@@ -1,0 +1,58 @@
+  <view class="member">
+    <view class="wraper">
+        <view class="head">
+            <image src="{{userInfo.avatarUrl}}"  class="headimg" class="userinfo-avatar"></image>
+            <view class="name">{{userInfo.nickName}}</view>
+        </view>
+
+    </view>
+</view>
+
+
+<view class="part-bottom">
+    <view class="part-wrap" bindtap="setting">
+        <view class="icon">
+            <image class="icon-img" src="../../images/member/11.png" mode="aspectFit"></image>
+        </view>
+        <view class="word">
+              信息完善
+        </view>
+        <text class="right-arrow">></text>
+    </view>
+    <view class="sep"></view>
+    <view class="part-wrap">
+        <view class="icon">
+            <image class="icon-img" src="../../images/member/22.png" mode="aspectFit"></image>
+        </view>
+        <view class="word">
+              我的收件
+        </view>
+        <text class="right-arrow">></text>
+    </view>
+     <view class="sep"></view>
+    <view class="part-wrap"  bindtap="jump" data-jump="myexpress">
+        <view class="icon">
+            <image class="icon-img" src="../../images/member/33.png" mode="aspectFit"></image>
+        </view>
+        <view class="word">
+              我的寄件
+        </view>
+        <text class="right-arrow">></text>
+    </view>
+       <view class="sep"></view>
+      <view class="part-wrap">
+        <view class="icon">
+            <image class="icon-img" src="../../images/member/33.png" mode="aspectFit"></image>
+        </view>
+        <view class="word">
+             好友
+        </view>
+        <text class="right-arrow">></text>
+    </view>
+
+      <view class="sep"></view>
+
+     <button type="primary" wx:if="{{!userInfo }}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"  >去登陆</button>   
+
+     <button type="primary" wx:else  bindtap="logout" >注销</button>   
+</view>   

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.mapper.OrderstatusMapper">
+    <!-- 
+   		 经验和教训：以后字段命名，一定要加前缀区分。这样多表关联不用命名。直接映射即可。    
+     -->
+     
+	<insert id="insert" parameterType="Orderstatus"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+			insert into orderstatus
+			(id,order_id,site_id,status_desc,creationtime)
+			values
+			(null,#{order_id},#{site_id},#{status_desc},now())		 
+	</insert>
+ 
+  
+     
+    <select id="get" parameterType="int" resultType="OrderstatusVO">
+      select 
+    	os.*,
+    	site.name as site_name
+    	  from
+	       (select * from orderstatus  where    order_id=#{order_id}
+	        order by creationtime desc 
+	        limit 0,200
+	        ) os
+	        left outer join site
+	        on os.site_id = site.id
+    </select>
+    
+</mapper>

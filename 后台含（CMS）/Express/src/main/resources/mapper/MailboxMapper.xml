@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.mapper.MailboxMapper" >
+
+	<insert id="insert" parameterType="mailbox" 
+	useGeneratedKeys="true" 
+	keyProperty="id" keyColumn="id"  >
+		 insert into mailbox
+		 (id,name,site_id,lng,lat,creationtime)
+		 values
+		 (null,#{name},#{site_id},#{lng},#{lat},now())
+	</insert>
+	
+	<select id="getBySiteId" resultType="mailbox">
+		select * from mailbox where site_id=#{site_id};
+	</select>
+	
+	<select id="getById" parameterType="int" resultType="mailbox">
+		select * from mailbox where id=#{id}
+	</select>
+	 
+	 <delete id="deleteById" parameterType="int">
+	 	delete from mailbox where id=#{id}
+	 </delete>
+</mapper>
+
+

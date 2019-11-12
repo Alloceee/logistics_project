@@ -1,0 +1,26 @@
+<form bindsubmit="formSubmit">
+  <view class="middle-form">
+    <view class="form">
+      <view class="row">
+        <view class="fleft">收货地址</view>
+        <view class="fright">
+          <textarea class="textarea" placeholder="请填写详细收货地址"  name='send_addr_detail'  style="color:#6a6a6a;height:40px;"  value="{{send_addr_detail}}"/>
+        </view>
+      </view>
+
+      <view class="hr"></view>
+      <view class="row">
+        <view class="fleft">
+           手机号
+        </view>
+        <input class="fright" placeholder="158xxxxxxxx" name='send_username' value="{{send_username}}"  />
+      </view>
+
+    </view>
+  </view>
+  <view class="submit">
+    <button form-type="submit" type="primary"  >
+      保存
+    </button>
+  </view>
+</form>

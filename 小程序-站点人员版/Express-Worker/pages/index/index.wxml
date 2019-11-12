@@ -1,0 +1,34 @@
+<view>
+    <view  class="line"></view>
+    <view style="height:40px;" class="cols-3-row">
+         <label class="left" style="padding-left:20px;" >发货单</label>
+         <input class="middle" disabled='disabled'  style="flex:3;height:40px;" value="{{deliverinfo.id}}" placeholder="请扫描发货单" />
+         <button  class="right" bindtap="getDeliverId">扫描</button>
+    </view>  
+     <view class="line"></view> 
+    <block wx:if="{{deliverinfo}}">
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >路线</label>
+            <label class="right"  >{{deliverinfo.route_name}}</label>
+        </view>  
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >司机</label>
+            <label class="right"  >{{deliverinfo.driver_name}}</label>
+        </view>   
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >车辆</label>
+            <label class="right"  >{{deliverinfo.truck_name}}</label>
+        </view>   
+        <view style="height:40px;" class="cols-2-row">
+            <label class="left" style="padding-left:20px;" >车牌号</label>
+            <label class="right"  >{{deliverinfo.truck_num}}</label>
+        </view> 
+    </block>
+   
+    <view style="height:30px;"></view>
+    <button bindtap="scanOrderForDeliver">扫描备货</button>
+
+</view>
+<view  wx:for="{{deliverlist}}" style="padding-left:10px" >
+   <view> {{item.send_username}}  {{item.id}}  {{item.send_addr_detail}}  </view>
+</view>

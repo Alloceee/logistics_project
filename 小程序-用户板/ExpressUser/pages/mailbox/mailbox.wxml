@@ -1,0 +1,36 @@
+<form bindsubmit="formSubmit">
+  <view class="middle-form">
+    <view class="row">
+      <view class="fleft">
+        选择站点
+      </view>
+      <view class="fright">
+        <picker bindchange="bindListChange" range-key="name"
+         name="site_id" value="{{siteList[selectIndex].id}}" range="{{siteList}}">
+          <view class="picker">
+            <text style="margin-left:5px;">{{siteList[selectIndex].name}}</text>
+            <view style="float:right;margin-right:5px;">
+              <image src="../../images/common/Arrow-bottom.png" class="arrow"></image>
+            </view>
+          </view>
+        </picker>
+        
+      </view>
+    </view>
+
+    <view class="br" />
+    <view style="display:flex;">
+      <view class="hr" style="flex:2;"></view>
+      <view style="flex:1;text-align:center;">查询结果</view>
+      <view class="hr" style="flex:2;"></view>
+    </view>
+    <view wx:if="{{maxboxList.length == 0}}">无数据</view>
+    <view  wx:else>
+    <view wx:for="{{maxboxList}}"  wx:for-item="box">
+          邮筒{{box.seq}}    编号{{box.id}}
+          <view class="hr" />
+    </view>
+    </view>
+  
+  </view>
+  </form>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.mapper.RouteMapper">
+   
+     
+     <delete id="deleteRouteById" parameterType="int">
+     	delete from route where id=#{id}
+     </delete>
+      <delete id="deleteRouteSiteByRouteId" parameterType="int">
+     	delete from route_site where route_id=#{id}
+     </delete>
+     <!-- 添加主表  返回主键 -->
+     <insert id="insertRoute" parameterType="route"  useGeneratedKeys="true" keyColumn="id" keyProperty="id" >
+     	insert into route(id,name)values(null,#{name})
+     </insert>
+     
+     <!-- 添加从表-->
+     <insert id="insertRouteSite" parameterType="routeSite" >
+     		insert into route_site(route_id,site_id,seq)values(#{route_id},#{site_id},#{seq})
+     </insert>
+     
+     
+     
+    
+    
+     <sql id="route_detail_sql">
+     		route.id  as  r_id,
+     		route.name as r_name,
+     		
+     		route_site.route_id as rs_route_id,
+     		route_site.site_id as rs_site_id,
+     		route_site.seq as rs_seq
+
+     </sql>
+     
+     <sql id="site_sql">
+     	site.id as s_id,
+     	site.name as s_name,
+     	site.addr_id as s_addr_id
+     </sql>
+     
+     <sql id="address_sql">
+	     address.id as addr_id,
+	     address.p_id as addr_p_id,
+	     address.name as addr_name,
+	     address.address as addr_address,
+	     address.lat as addr_lat,
+	     address.lng as addr_lng
+     </sql>
+     <!--   -->
+      <resultMap type="RouteVO" id="RouteVOMap">
+     	  <id column="r_id" property="id" />
+     	  <result  column="r_name" property="name" />
+     	  <collection property="routesitelist" column="rs_route_id=rs_route_id,rs_site_id=rs_site_id" ofType="RouteSiteVO" >
+     	  	  <id column="rs_route_id" property="route_id" />
+     	  	  <id column="rs_site_id"  property="site_id" />
+     	  	  <result column="rs_seq" property="seq" />
+     	  	  <association column="rs_site_id" property="site" javaType="SiteVO" >
+     	  	  		<id column="s_id" property="id" />
+     	  	  		<result column="s_name" property="name"  />
+     	  	  		<result column="s_addr_id" property="addr_id" />
+     	  	  		<association column="s_addr_id" property="address" javaType="Address">
+     	  	  			<id  column="addr_id" property="id"  />
+     	  	  		 	<result column="addr_p_id" property="p_id"  />
+					    <result column="addr_name" property="name"  />
+					    <result column="addr_address" property="address"  />
+					    <result column="addr_lat" property="lat"  />
+					     <result column="addr_lng" property="lng"  />
+     	  	  		</association>
+     	  	  </association>
+     	  </collection>
+     </resultMap>
+     <!-- 
+     1 条路线：route==》  id  name  <=== RouteVO 
+     	   route_site ===》route_id,site_id,seq,   <=== RouteSiteVO
+有  多个站点：site ===> id,name,addr_id   <=== SiteVO
+一个站点关联一个地址：
+			address ==> id,p_id,name,address,lat,lng
+      -->
+     <select id="getById" parameterType="int"  resultMap="RouteVOMap" >
+     	select 
+	   		 p2.*,
+	   		 <include refid="address_sql" />
+	   	     from   
+	     	 (select  
+	   	   	    p.*,
+	   	        <include refid="site_sql"></include>
+	     	    from (select  
+			     	   	<include refid="route_detail_sql"  />
+			     	    from route inner  join route_site 
+			     	  	on  route.id = route_site.route_id 
+			     	  	  where route.id=#{id}
+			     	  	) p
+		     	left outer join site 
+		     	on p.rs_site_id = site.id ) p2
+		   left outer join address
+		   on p2.s_addr_id = address.id
+     </select>
+     
+      <select id="getAllDetail" resultMap="RouteVOMap">
+        select 
+	   		 p2.*,
+	   		 <include refid="address_sql" />
+	   	     from   
+	     	 (select  
+	   	   	    p.*,
+	   	        <include refid="site_sql"></include>
+	     	    from (select  
+			     	   	<include refid="route_detail_sql"  />
+			     	    from route inner  join route_site 
+			     	  	on  route.id = route_site.route_id 
+			     	  	
+			     	  	) p
+		     	left outer join site 
+		     	on p.rs_site_id = site.id ) p2
+		   left outer join address
+		   on p2.s_addr_id = address.id
+     </select>
+     
+</mapper>

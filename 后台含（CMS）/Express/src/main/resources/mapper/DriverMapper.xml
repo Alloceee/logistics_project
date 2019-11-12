@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.express.mapper.DriverMapper">
+    <!-- 
+   		 经验和教训：以后字段命名，一定要加前缀区分。这样多表关联不用命名。直接映射即可。    
+     -->
+     
+
+	<insert id="insert" parameterType="driver"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into driver
+		(id,name,tel,creationtime)
+		values
+		(null,#{name},#{tel},now())
+	</insert>
+
+	<select id="get" parameterType="driver" resultType="driver">
+		select * from driver where 1
+		<if test="id!=null" >
+			and id=#{id}
+		</if>
+		<if test="tel!=null" >
+			and tel=#{tel}
+		</if>
+		<if test="name!=null" >
+			and name like concat("%",#{name},"%")
+		</if>
+	</select>
+	
+	<select id="getAll" resultType="driver">
+	   select * from driver
+	</select>
+	
+
+	<delete id="deleteById" parameterType="int">
+		delete from driver where id=#{id}
+	</delete>
+	
+	 
+</mapper>

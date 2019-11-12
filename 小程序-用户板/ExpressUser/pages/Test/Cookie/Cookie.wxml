@@ -1,0 +1,13 @@
+<form bindsubmit="formSubmit" bindreset="formReset">
+   
+  <view class="section">
+    <view class="section__title">输入框</view>
+    <input name="input" placeholder="东西" />
+  </view>
+   
+  <view class="btn-area">
+    <button formType="submit">设置</button>
+    <button  bindtap="getCookieData" >获取</button>
+    <button formType="reset">重置</button>
+  </view>
+</form>
